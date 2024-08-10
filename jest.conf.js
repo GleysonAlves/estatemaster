@@ -1,4 +1,10 @@
 module.exports = {
     testEnvironment: "node",
-    roots: ['<root>/src/test']
-};
+    coverrageDirectory: 'coverage',
+    testMatch: ['**/test/**/.test.js'],
+    collectCoverageFrom: ['src/**/*.js'],
+    setupFilesAfterEnv: ['/jest.setup.js']
+}
+
+// jest.setup.js
+// jest.setTimeout(90000)
