@@ -5,7 +5,6 @@ class UserController {
 
     // Cadastra usuários e faz verificações
     async registerUser(req, res) {
-        //TODO Faz as validações dos campos enviados
         const { social_reason, fantasy_name, CNPJ, email, creci, first_name, last_name, date_birth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo, password } = req.body;
         
         try {

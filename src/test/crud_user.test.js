@@ -14,10 +14,6 @@ describe('CRUD usuários', () => {
         let type = 1;
 
         if (type === 1) {
-            //TODO Criar testes de verificação
-            //TODO Verificar se existe o CNPJ
-            //TODO Verificar se os campos obrigatorios estão vazios
-            
             user = { social_reason: 'Vitor e Manuel Lavanderia', fantasy_name: 'Vitor e Manuel Lavanderia ME', CNPJ: '16.246.357/0001-95', email, creci: '123456', first_name: '', last_name: '', date_birth: '', gender: '', marital_status: '', phone: '(19) 2620-9602', profession: '', whatsapp: '(19) 99709-1735', facebook: 'empresa_facebook', instagran: '@instagram', linkedin: 'empresa_linkedin', reclame_aqui: 'reclame_aqui.com.br', site: 'www.fernandoejosetransportesme.com.br', zip_code: '13098-578', street: 'Rua Neide', number: '982', complement: 'Galpão', neighborhood: 'Loteamento Parque', city: 'Campinas', state: 'SP', opening_hours: 'Seg a Sex 08:00 às 17:00', description: 'Arcu quis aliquam tincidunt pretium placerat dictumst quisque consectetur aenean.', logo: 'img.png', password: '123456789' };
         } 
         
@@ -57,7 +53,7 @@ describe('CRUD usuários', () => {
         try {
             const email = '1723333071876@gmail.com';
             const res = await request.post('/user/email').send({ email });
-            //TODO Verificar se o email existe
+            
             expect(res.status).toBe(200);
             expect(res.body.success).toBe(true);
             expect(Array.isArray(res.body.user)).toBe(true);

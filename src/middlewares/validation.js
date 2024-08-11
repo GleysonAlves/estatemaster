@@ -2,6 +2,7 @@ const { celebrate, Joi, Segments } = require('celebrate');
 
 const schemaUser = {
     [Segments.BODY]: Joi.object().keys({
+        
         email: Joi.string().email().required(),
         number: Joi.string().pattern(/^\d+$/).required(),  // Corrigido para padrão numérico
         password: Joi.string().min(6).required(),
