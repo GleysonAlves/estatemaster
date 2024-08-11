@@ -10,10 +10,10 @@ const { route } = require('../app');
 router.get('/', homeController.index);
 
 /** ROUTERS USERS API */
-router.post('/user', userController.registerUser);
+router.post('/user', validateUser, userController.registerUser);
 router.get('/user', userController.listUsers);
 router.post('/user/email', userController.user);
-router.put('/user/:id', userController.updateUser);
+router.put('/user/:id', validateUser, userController.updateUser);
 router.delete('/user/:id', userController.deleteUser);
 
 

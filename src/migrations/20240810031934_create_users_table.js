@@ -4,6 +4,7 @@ exports.up = function(knex) {
         table.string('social_reason').notNullable();
         table.string('fantasy_name').notNullable();
         table.string('CNPJ').unique().notNullable();
+        table.string('CPF').unique().notNullable();
         table.string('email').unique().notNullable();
         table.string('creci');
         table.string('first_name').notNullable();
