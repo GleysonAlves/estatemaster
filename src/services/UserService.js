@@ -4,12 +4,12 @@ class UserService {
 
     // Criar usuaŕio
     async create(data) {
-        const { social_reason, fantasy_name, CNPJ, email, creci, first_name, last_name, date_birth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo, password } = data;
+        const { social_reason, fantasy_name, CNPJ, CPF, email, creci, first_name, last_name, date_birth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo, password } = data;
 
         const formattedDateBirth = date_birth ? date_birth : null;
         try {
             //TODO Verificar se o e-mail já esta cadastrado
-            const userId = await User.register( social_reason, fantasy_name, CNPJ, email, creci, first_name, last_name, formattedDateBirth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo, password );
+            const userId = await User.register( social_reason, fantasy_name, CNPJ, CPF, email, creci, first_name, last_name, formattedDateBirth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo, password );
             return { success: true, message: 'Usuário cadastrado com sucesso!', id: userId };
         } catch (error) {
             console.log(error);
@@ -44,9 +44,9 @@ class UserService {
 
     // Edição do registro de usuário
     async update(data) {
-        const { id, social_reason, fantasy_name, CNPJ, email, creci, first_name, last_name, date_birth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo } = data;
+        const { id, social_reason, fantasy_name, CNPJ, CPF, email, creci, first_name, last_name, date_birth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo } = data;
         try {
-            const prepareUpdate = { social_reason, fantasy_name, CNPJ, email, creci, first_name, last_name, date_birth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo };
+            const prepareUpdate = { social_reason, fantasy_name, CNPJ, CPF, email, creci, first_name, last_name, date_birth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo };
             return { success: true, message: "Dados validados e preparados com sucesso.", data: prepareUpdate };
         } catch (error) {
             console.log(error);

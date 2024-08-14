@@ -4,8 +4,8 @@ const ejs = require('ejs');
 const path = require('path');
 //TODO Colocar verificação de ambiente para usar as configurações correspondentes ao ambiente ('Test, Development, Production')
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
+    host: 'sandbox.smtp.mailtrap.io',
+    port: 587,
     secure: false,
     auth: {
         user: process.env.SMTP_USER,

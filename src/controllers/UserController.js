@@ -1,17 +1,20 @@
 const UserService = require('../services/UserService');
 const User = require('../models/User');
+const hateos = require('../util/hateoas');
+const sendEmails = require('../util/email');
 
 class UserController {
 
     // Cadastra usuários e faz verificações
     async registerUser(req, res) {
-        const { social_reason, fantasy_name, CNPJ, email, creci, first_name, last_name, date_birth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo, password } = req.body;
+        const { social_reason, fantasy_name, CNPJ, CPF, email, creci, first_name, last_name, date_birth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo, password } = req.body;
         
         try {
             const result = await UserService.create({
                 social_reason,
                 fantasy_name,
                 CNPJ,
+                CPF,
                 email,
                 creci,
                 first_name,
@@ -39,8 +42,17 @@ class UserController {
                 logo,
                 password
             });
-            res.status(201).json(result);
-            //TODO Faz envio de uma e-mail de confirmação de cadastro - Criar links HATEOS API REST-FULL
+
+            const id = result.id; 
+            const resource = 'user';
+            const HATEOS = hateos.generateHateoasLinks(resource, id);
+
+            res.status(201).json({
+                data: result,
+                _links: HATEOS
+            });
+            //TODO Faz envio de uma e-mail de confirmação de cadastro
+            sendEmails.confirmRegistration(req.body.email, req.body.first_name);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -50,7 +62,14 @@ class UserController {
     async listUsers(req, res) {
         try {
             const result = await UserService.listAll();
-            res.status(200).json(result);
+            
+            const resource = 'user';
+            const HATEOS = hateos.generateHateoasLinks(resource);
+            
+            res.status(200).json({
+                data: result,
+                _links: HATEOS
+            });
         } catch (error) {
             res.status(500).json({ error: 'Erro ao listar usuários.' });
         }
@@ -60,7 +79,15 @@ class UserController {
     async user(req, res) {
         try {
             const result = await UserService.listUser(req.body);
-            res.status(200).json(result);
+            
+            const id = result.user[0]?.id;
+            const resource = 'user';
+            const HATEOS = hateos.generateHateoasLinks(resource, id);
+
+            res.status(201).json({
+                data: result,
+                _links: HATEOS
+            });
         } catch (error) {
             console.log('Erro ao listar usuário:', error);
             res.status(500).json({ error: 'Erro ao listar informações do usuário.' });
@@ -84,8 +111,17 @@ class UserController {
                 return res.status(404).json({ success: false, message: 'Usuário não encontrado.' });
             }
 
+            const id = result.id;
+            const resource = 'user';
+            const HATEOS = hateos.generateHateoasLinks(resource, id);
+
             // Envia a resposta com o usuário atualizado
-            res.status(200).json({ success: true, user: updatedUser, message: preparedData.message });
+            res.status(200).json({ 
+                success: true,
+                user: updatedUser,
+                message: preparedData.message,
+                _links: HATEOS
+            });
         } catch (error) {
             console.log('Erro ao atualizar informações do usuário:', error);
             res.status(500).json({ error: 'Erro ao atualizar as informações do usuário.' });
@@ -98,7 +134,14 @@ class UserController {
            const { id } = req.params;
            const result = await UserService.delete(id);
            if (result.success) {
-            res.status(200).json(result);
+            const id = result.id;
+            const resource = 'user';
+            const HATEOS = hateos.generateHateoasLinks(resource, id);
+
+            res.status(201).json({
+                data: result,
+                _links: HATEOS
+            });
            } else {
             res.status(400).json(result);
            }
