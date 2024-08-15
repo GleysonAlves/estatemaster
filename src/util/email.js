@@ -4,13 +4,8 @@ const ejs = require('ejs');
 const path = require('path');
 //TODO Colocar verificação de ambiente para usar as configurações correspondentes ao ambiente ('Test, Development, Production')
 const transporter = nodemailer.createTransport({
-    host: 'sandbox.smtp.mailtrap.io',
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-    }
+    host: 'localhost',
+    port: 1025
 });
 
 // Disparo para confirmação de cadastro
@@ -21,7 +16,7 @@ const confirmRegistration = (to, name) => {
             console.error(err);
         }else {
             const mailOptions = {
-                from: 'estatemaster@contati.com.br', // TODO Trocar para e-mail da hospedageem quando for realizado deploy
+                from: 'estatemaster@contato.com.br', // TODO Trocar para e-mail da hospedageem quando for realizado deploy
                 to: to,
                 subject: 'Confirme seu cadastro no Estate Master',
                 html: html
@@ -62,9 +57,9 @@ const welcomeSend = (to, name) => {
 }
 
 // Disparo recuperação de senha
-const recoverPassword = (to, name) => {
+const recoverPassword = (to, name, token) => {
     const templatePath = path.join(__dirname, '../views/partials/emails/recover_password.ejs');
-    ejs.renderFile(templatePath, {name}, (err, html) => {
+    ejs.renderFile(templatePath, {name, token}, (err, html) => {
         if (err) {
             console.error(err);
         }else {

@@ -1,11 +1,15 @@
+const { required } = require('joi');
 const knex = require('../config/connection');
-
+const bcrypt = require('bcrypt');
 class User {
 
     // Cadastrar usuários 
     async register(social_reason, fantasy_name, CNPJ, CPF, email, creci, first_name, last_name, date_birth, gender, marital_status, phone, profession, whatsapp, facebook, instagran, linkedin, reclame_aqui, site, zip_code, street, number, complement, neighborhood, city, state, opening_hours, description, logo, password) {
         try {
-            //TODO Cripitografar senha do usuário para salvar no banco de dados
+            
+            // Cripitografa a senha para armazenar no banco
+            let has = await bcrypt.hash(password, 10);
+
             const [id] = await knex.insert({
                 social_reason,
                 fantasy_name,
@@ -36,7 +40,7 @@ class User {
                 opening_hours,
                 description,
                 logo,
-                password,
+                password: has,
                 status: 'registered'
             }).table('users');
             return id;
